@@ -1,78 +1,111 @@
-#define Queue_h
-#include <stdlib.h>
 #include<stdio.h>
-struct Node
+#include<stdlib.h>
+#define MAX 100
+
+int n;
+int adj[MAX][MAX];
+int visited[MAX];
+void BF_Traversal();
+
+int queue[MAX], front = -1,rear = -1;
+void push_queue(int vertex);
+int pop_queue();
+int isEmpty_queue();
+
+
+
+
+void BFS()
 {
-	int data;
-	struct Node *next;
-}*front=NULL,*rear=NULL;
-void enqueue(int x)
-{
-	struct Node *t;
-	t=(struct Node*)malloc(sizeof(struct Node));
-	if(t==NULL)
-	printf("Queue is FUll\n");
-	else
-	{
-		t->data=x;
-		t->next=NULL;
-		if(front==NULL)
-		front=rear=t;
-		else
-		{
-			rear->next=t;
-			rear=t;
-		}
-	}
+    int v;
+    for(v=0; v<n; v++)
+    visited[v] = 0;
+
+    printf("Enter Start Vertex for BFS: \n");
+    scanf("%d", &v);
+
+    int i;
+    push_queue(v);
+
+   while(!isEmpty_queue())
+   {
+       v = pop_queue( );
+       if(visited[v])
+           continue;
+
+      printf("%d ",v);
+      visited[v] = 1;
+
+      for(i=0; i<n; i++)
+      {
+         if(adj[v][i] == 1 && visited[i] == 0)
+         {
+            push_queue(i);
+         }
+      }
+   }
+   printf("\n");
 }
-int dequeue()
+
+void push_queue(int vertex)
 {
-	int x=-1;
-	struct Node* t;
-	if(front==NULL)
-	printf("Queue is Empty\n");
-	else
-	{
-		x=front->data;
-		t=front;
-		front=front->next;
-		free(t);
-	}
-	return x;
+   if(rear == MAX-1)
+      printf("Queue Overflow\n");
+   else
+   {
+      if(front == -1)
+         front = 0;
+      rear = rear+1;
+      queue[rear] = vertex ;
+   }
 }
-int isEmpty()
+
+int isEmpty_queue()
 {
-	return front==NULL;
+   if(front == -1 || front > rear)
+      return 1;
+   else
+      return 0;
 }
-void BFS(int G[][6],int start,int n)
+
+int pop_queue()
 {
-	int i=start,j;
-	int visited[6]={0};
-	printf("%d ",i);
-	visited[i]=1;
-	enqueue(i);
-	while(!isEmpty())
-	{
-		i=dequeue();
-		for(j=1;j<n;j++)
-		{
-			if(G[i][j]==1 && visited[j]==0)
-			{
-				printf("%d ",j);
-				visited[j]=1;
-				enqueue(j);
-			}
-		}
-	}
+   int delete_item;
+   if(front == -1 || front > rear)
+   {
+      printf("Queue Underflow\n");
+      exit(1);
+   }
+
+   delete_item = queue[front];
+   front = front+1;
+   return delete_item;
 }
+
 int main()
 {
-int G[6][6]={{0,0,0,0,0,0},
-{0,0,1,1,1,0},
-{0,1,0,1,0,0},
-{0,1,1,0,0,1},
-{0,1,0,0,0,0},
-{0,0,0,1,0,0}};
-BFS(G,4,6);
-return 0;
+     int t;
+     printf("Enter the test case : \n");
+     scanf("%d",&t);
+     while(t--){
+     int count,max_edge,origin,destin;
+
+     printf("Enter  the number of vertices : \n");
+     scanf("%d",&n);
+     printf("Enter the number of Edges\n");
+     scanf("%d",&max_edge);
+
+     if(t==1) n+=1;
+     for(count=1; count<=max_edge; count++)
+   {
+      printf("Enter  the edge %d : ",count);
+      scanf("%d %d",&origin,&destin);
+         adj[origin][destin] = 1;
+         adj[destin][origin] = 1;
+
+   }
+     BFS();
+
+   }
+   return 0;
 }
