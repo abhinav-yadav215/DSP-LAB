@@ -1,136 +1,91 @@
 #include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
+#include<malloc.h>
+#include<stdlib.h>
 
-void add();
-void delete();
-void disp();
-void search();
+void createnode();
+void display();
+void reverse();
 
 struct node
 {
-	int data;
-	struct node *link;
+    int data;               
+    struct node *next;
 };
 
-struct node *current_node, *new_node, *head;
+typedef struct node node;
 
-void add()
+node *head=NULL;
+
+int main()
 {
-	new_node=(struct node *)malloc(sizeof (struct node *));
-	new_node->link=NULL;
-	printf("\nEnter a Number: ");
-	scanf("%d",&new_node->data);
-	if(head == NULL)
-		head = new_node;
-	
-	else 
-	{
-		new_node->link = head;
-		head = new_node;
-	}
-	return;
+   int n,x,i;
+   char y;
+   
+   printf("enter the number of node in linklist\t");
+   scanf("%d",&n);
+   for(i=0;i<n;i++)
+
+   {
+       createnode();            
+   }
+
+   printf("before reverse\n");
+   display();                   
+   reverse();                   
+   printf("\nafter reverse\n");
+   display();
 }
 
-void delete()
+void createnode()
 {
-	int n;
-	struct node *prober, *del;
-	printf("\nEnter a Number to be deleted from Linked List: ");
-	scanf("%d",&n);
-	prober = head;
-	
-	while(prober -> link)
-	{
-		if(prober->link->data==n)
-		{
-			del = prober->link;
-			prober->link = prober->link->link;
-			free(del);
-		}
-		prober=prober->link;
-	}
-	return;
-}
-
-void disp()
-{
-	struct node *prober;
-	prober=head;
-	while(prober)
-	{
-		printf("\n	%d ",prober->data);
-		prober=prober->link;
-	}
-	return;
-}
-void search()  
-{  
-    struct node *ptr;  
-    int item,i=0,flag;  
-    ptr = head;   
-    if(ptr == NULL)  
-    {  
-        printf("\nEmpty List\n");  
-    }  
-    else  
-    {   
-        printf("\nEnter item which you want to search?\n");   
-        scanf("%d",&item);  
-        while (ptr!=NULL)  
-        {  
-            if(ptr->data == item)  
-            {  
-                printf("item found at location %d ",i+1);  
-                flag=0;  
-            }   
-            else  
-            {  
-                flag=1;  
-            }  
-            i++;  
-            ptr = ptr-> link;  
-        }  
-        if(flag==1)  
-        {  
-            printf("Item not found\n");  
-        }  
-    }     
-          
-}  
-
- void reverse()
-{
-    struct node *previous=NULL, *next=NULL, *current=head;
-    while(current!=NULL)
+    node *temp;         
+    temp=(node*) malloc(sizeof(node));      
+    if (temp==NULL)                         
     {
-        next=current->link;
-        current->link=previous;
-        previous=current;
-        current=next;
+        printf("memory is full");
+        exit(0);
     }
-    head=previous;
+    
+    printf("enter the data\n");
+    scanf("%d",&temp->data);
+    temp->next=NULL;
+    
+    if(head==NULL)              
+        head=temp;
+    else
+    {
+        node *q=head;
+        while(q->next!=NULL)       
+        {
+            q=q->next;
+        }
+        q->next=temp;
+        temp=NULL;
+        q=NULL;
+    }
 }
 
-void main()
+void display()
 {
-	int n;int x=1;
-	while(x)
-	{
-		printf("Choose an action: \nEnter 1 to add a node\nEnter 2 to delete a node\nEnter 3 to display the linked list\nEnter 4 to search element\nEnter 5 to reverse element");
-		scanf("%d",&n);
-	switch (n)
-		{
-			case 1: add(); break;
-			case 2: delete(); break;
-			case 3: disp(); break;
-			case 4: search(); break;
-			case 5: reverse(); break;
-			case 6: x=0; break;
-			default: printf("\nChoose from mentioned options only!\n");
-		}
-		
-	}
-	return;
+    node *q;
+    q=head;
+    while(q)
+    {
+        printf("%d->",q->data);
+        q=q->next;              
+    }
+    q=NULL;
 }
 
+void reverse()
+{
+    node *p=NULL, *q=NULL, *r=head;
+    while(r)
+    {
+        q=r->next;
+        r->next=p;      
+        p=r;
+        r=q;
+    }
+    head=p;
+}
