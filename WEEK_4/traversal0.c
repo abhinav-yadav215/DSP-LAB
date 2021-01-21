@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Structure of tree node.
 typedef struct node
 {
     int data;
@@ -9,7 +8,6 @@ typedef struct node
     struct node *right;
 } tree_node;
 
-// Function for inserting new node.
 tree_node *insert_node(tree_node *root, int value)
 {
     if (root == NULL)
@@ -32,7 +30,6 @@ tree_node *insert_node(tree_node *root, int value)
     return root;
 }
 
-// Function for preorder.
 void preorder(tree_node *root)
 {
     if (root != NULL)
@@ -43,7 +40,6 @@ void preorder(tree_node *root)
     }
 }
 
-// Function for inroder.
 void inorder(tree_node *root)
 {
     if (root != NULL)
@@ -54,29 +50,23 @@ void inorder(tree_node *root)
     }
 }
 
-// Function for postorder.
 void postorder(tree_node *root)
 {
     if (root != NULL)
     {
-        // printf("printnode\n");
         postorder(root->left);
         postorder(root->right);
         printf("%d",root->data);
     }
 }
 
-// Main function.
 int main()
 {
     tree_node *root = NULL;
     int number_of_nodes;
     int node;
-
-    // printf("\n NUMBER OF NODES : ");
     scanf("%d", &number_of_nodes);
-
-    // printf("\n INSERT NODES : ");
+    
     int i;
     for (i= 0; i < number_of_nodes; i++)
     {
@@ -84,17 +74,13 @@ int main()
         root = insert_node(root, node);
     }
 
-    // printf("\n PRE-ORDER : ");
     preorder(root);
     printf("\n");
 
-    // printf("\n INORDER : ");
     inorder(root);
     printf("\n");
 
-    // printf("\n POST-ORDER : ");
     postorder(root);
-    // printf("\n");
 
     return 0;
 }
