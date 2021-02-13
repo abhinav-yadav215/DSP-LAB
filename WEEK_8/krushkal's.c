@@ -18,13 +18,13 @@ struct edge *del_pque();
 int isEmpty_pque( );
 void create_graph();
  
-int n;   /*Total number of vertices in the graph */
+int n;
  
 int main()
 {
         int i;
-        struct edge tree[MAX]; /* Will contain the edges of spanning tree */
-        int wt_tree = 0; /* Weight of the spanning tree */
+        struct edge tree[MAX];
+        int wt_tree = 0;
  
         create_graph();
  
@@ -41,20 +41,18 @@ int main()
  
         return 0;
  
-}/*End of main()*/
+}
  
 void make_tree(struct edge tree[])
 {
         struct edge *tmp;
         int v1,v2,root_v1,root_v2;
-        int father[MAX]; /*Holds father of each vertex */
-        int i,count = 0;    /* Denotes number of edges included in the tree */
+        int father[MAX];
+        int i,count = 0;   
  
         for(i=0; i<n; i++)
                 father[i] = NIL;
  
-        /*Loop till queue becomes empty or
-        till n-1 edges have been inserted in the tree*/
         while( !isEmpty_pque( ) && count < n-1 )
         {
                 tmp = del_pque();
@@ -88,9 +86,7 @@ void make_tree(struct edge tree[])
                 exit(1);
         }
  
-}/*End of make_tree()*/
- 
-/*Inserting edges in the linked priority queue */
+}
 void insert_pque(int i,int j,int wt)
 {
         struct edge *tmp,*q;
@@ -100,7 +96,6 @@ void insert_pque(int i,int j,int wt)
         tmp->v = j;
         tmp->weight = wt;
  
-        /*Queue is empty or edge to be added has weight less than first edge*/
         if( front == NULL || tmp->weight < front->weight )
         {
                 tmp->link = front;
@@ -113,19 +108,18 @@ void insert_pque(int i,int j,int wt)
                         q = q->link;
                 tmp->link = q->link;
                 q->link = tmp;
-                if(q->link == NULL)  /*Edge to be added at the end*/
+                if(q->link == NULL)  
                         tmp->link = NULL;
         }
-}/*End of insert_pque()*/
+}
  
-/*Deleting an edge from the linked priority queue*/
 struct edge *del_pque()
 {
         struct edge *tmp;
         tmp = front;
         front = front->link;
         return tmp;
-}/*End of del_pque()*/
+}
  
 int isEmpty_pque( )
 {
@@ -133,7 +127,7 @@ int isEmpty_pque( )
                 return 1;
         else
                 return 0;
-}/*End of isEmpty_pque()*/
+}
  
 void create_graph()
 {
